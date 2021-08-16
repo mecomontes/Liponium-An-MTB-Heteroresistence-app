@@ -29,15 +29,17 @@ class heteroresistence:
         reference.drop(columns=['Position', 'Mutated Codon', 'Reference Aminoacid', 'Mutated Aminoacid'], inplace=True)
 
         self.forward = self.running('forward.csv')
-        self.aminoacids_frequencies()
-        self.forward.reset_index(inplace=True)
-        final = reference.merge(self.forward, on='Reference Codon', how='right')
+        df_final = self.aminoacids_frequencies()
+        df_final.reset_index(inplace=True)
+        final = reference.merge(df_final, on='Reference Codon', how='right')
         final.fillna('', inplace=True)
         final = final[['Gen', 'Gen-Position', 'Gen AA', 'Mutation type', 'Probe', 'Position', 'Read', 'Reference Codon',
                     'Mutated Codon', 'Counts', 'Frequencies', 'Reference Aminoacid', 'Mutated Aminoacid', 'Drug Resistance',
                     'Notes', 'forward_SONDA', 'Gen.1', 'nucleotido', 'nucleotid', 'en']]
 
-        final.to_excel('Report.xlsx', index=False)
+        final.to_excel('Merged_Report.xlsx', index=False)
+        df_final.to_excel('Unmerged_report.xlsx', index=False)
+        reference.to_excel('Reference.xlsx', index=False)
 
     def running(self, file_name):
         """Call the AWK process and take it dataframe results called file to mapping the data
@@ -213,17 +215,18 @@ class heteroresistence:
         Returns:
             (dataframe): Full data for each matching found, including reference and mutated aminoacid.
         """
-        self.forward = self.forward.explode()
-        self.forward.dropna(inplace=True)
-        self.forward = pd.DataFrame(self.forward.tolist(), columns=['Genes', 'Codons', 'Position', 'Read', 'Counts'])
-        self.forward.dropna(inplace=True)
-        codon = self.forward['Codons'].str.split('/', expand=True)
+        df_aa = self.forward.explode()
+        df_aa.dropna(inplace=True)
+        df_aa = pd.DataFrame(df_aa.tolist(), columns=['Genes', 'Codons', 'Position', 'Read', 'Counts'])
+        df_aa.dropna(inplace=True)
+        codon = df_aa['Codons'].str.split('/', expand=True)
         codon.columns = ['Mutated Codon', 'Reference Codon']
-        self.forward = pd.concat([self.forward, codon], axis=1)
-        self.forward['Frequencies'] = self.forward['Counts'] * 100 / self.forward['Counts'].sum()
-        self.forward['Reference Aminoacid'] = self.forward['Reference Codon'].apply(lambda codon: f'{Seq(codon[:3]).translate()}')
-        self.forward['Mutated Aminoacid'] = self.forward['Mutated Codon'].apply(lambda codon: f'{Seq(codon[:3]).translate()}')
-        self.forward.drop(columns=['Codons'], inplace=True)
+        df_aa = pd.concat([df_aa, codon], axis=1)
+        df_aa['Frequencies'] = df_aa['Counts'] * 100 / df_aa['Counts'].sum()
+        df_aa['Reference Aminoacid'] = df_aa['Reference Codon'].apply(lambda codon: f'{Seq(codon[:3]).translate()}')
+        df_aa['Mutated Aminoacid'] = df_aa['Mutated Codon'].apply(lambda codon: f'{Seq(codon[:3]).translate()}')
+        df_aa.drop(columns=['Codons'], inplace=True)
+        return df_aa
 
 
 if __name__ == '__main__':

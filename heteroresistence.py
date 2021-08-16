@@ -210,9 +210,11 @@ if __name__ == '__main__':
     df_final = aminoacids_frequencies(forward)
     df_final.reset_index(inplace=True)
     final = reference.merge(df_final, on='Reference Codon', how='right')
-    fillna('', inplace=True)
+    final.fillna('', inplace=True)
     final = final[['Gen', 'Gen-Position', 'Gen AA', 'Mutation type', 'Probe', 'Position', 'Read', 'Reference Codon',
                    'Mutated Codon', 'Counts', 'Frequencies', 'Reference Aminoacid', 'Mutated Aminoacid', 'Drug Resistance',
                    'Notes', 'forward_SONDA', 'Gen.1', 'nucleotido', 'nucleotid', 'en']]
 
-    final.to_excel('Report.xlsx', index=False)
+    final.to_excel('Merged_Report.xlsx', index=False)
+    df_final.to_excel('Unmerged_report.xlsx', index=False)
+    reference.to_excel('Reference.xlsx', index=False)
