@@ -68,4 +68,4 @@ conda deactivate
 ## Authors
 
 * **Robinson Montes** - [mecomonteshbtn](https://github.com/mecomontes)
-* **Felipe** - [felipe](https://github.com/mecomontes)
+* **Felipe Rodríguez** - [felipe](https://github.com/felipedjrg)
