@@ -1,5 +1,6 @@
 attrs==21.2.0
 biopython==1.79
+easygui==0.98.2
 et-xmlfile==1.1.0
 fuzzysearch==0.7.3
 numpy==1.21.2
