@@ -1,4 +1,4 @@
-# MTB-Heteroresistence
+# **Liponium:** An MTB-Heteroresistence app
 
 ---
 
@@ -7,10 +7,10 @@
 <div align ="center "><img src='./images/download.png' alt='Liponium' width="700"></div>
 ---
 
-## 2. Extract Liponium folder on your local machine in the same folder that your fastq files.
+## 2. Extract Liponium folder on your local machine.
 
 ---
-## 3. Move to Liponium folder in your machine and open a terminar (CLI).
+## 3. Move into **"Liponium-An-MTB-Heteroresistence-app"** folder in your local machine and open a terminar (CLI).
 
 <div align ="center "><img src='./images/terminal.png' alt='Liponium' width="700"></div>
 ---
@@ -45,21 +45,26 @@ pip install -r requirements.txt
 <div align ="center "><img src='./images/run.png' alt='Liponium' width="700"></div>
 ---
 
-## 8. Liponium creates 3 different reports in the same folder.
+## 8. Selec the folder with your fastq files
+
+<div align ="center "><img src='./images/folder.png' alt='Liponium' width="700"></div>
+---
+
+## 9. Liponium creates 3 different reports in the same folder.
 
 <div align ="center "><img src='./images/reports.png' alt='Liponium' width="700"></div>
 ---
 
-Reference.xlsx: An EXCEL file that contains the initial info inputed.
+Reference_Report.xlsx: An EXCEL file that contains the initial info inputed.
 
-Unmerged.xlsx: An EXCEL file with the result after aplying the Liponium searching. 
+Unmerged_Report.xlsx: An EXCEL file with the result after aplying the Liponium searching. 
 
-Merged.xlsx: Its a full report with that merged the initial info (Reference.xlsx) with the generated data (Unmerged.xlsx).
+Merged_Report.xlsx: Its a full report with that merged the initial info (Reference.xlsx) with the generated data (Unmerged.xlsx).
 
 <div align ="center "><img src='./images/merged.png' alt='Liponium' width="700"></div>
 ---
 
-## 9. Deactivate the enviroment (Optional):
+## 10. Deactivate the enviroment (Optional):
 ```
 conda deactivate
 ```

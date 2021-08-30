@@ -11,6 +11,8 @@ from os import popen
 import pandas as pd
 from fuzzysearch import find_near_matches
 from Bio.Seq import Seq
+from easygui import diropenbox, msgbox
+from datetime import datetime
 
 
 class heteroresistence:
@@ -36,10 +38,11 @@ class heteroresistence:
         final = final[['Gen', 'Gen-Position', 'Gen AA', 'Mutation type', 'Probe', 'Position', 'Read', 'Reference Codon',
                     'Mutated Codon', 'Counts', 'Frequencies', 'Reference Aminoacid', 'Mutated Aminoacid', 'Drug Resistance',
                     'Notes', 'forward_SONDA', 'Gen.1', 'nucleotido', 'nucleotid', 'en']]
+        date = datetime.today().strftime('%Y-%m-%d-%H-%M')
+        final.to_excel(f'Merged_Report_{date}.xlsx', index=False)
+        df_final.to_excel(f'Unmerged_Report_{date}.xlsx', index=False)
+        reference.to_excel(f'Reference_Report_{date}.xlsx', index=False)
 
-        final.to_excel('Merged_Report.xlsx', index=False)
-        df_final.to_excel('Unmerged_report.xlsx', index=False)
-        reference.to_excel('Reference.xlsx', index=False)
 
     def running(self, file_name):
         """Call the AWK process and take it dataframe results called file to mapping the data
@@ -63,6 +66,10 @@ class heteroresistence:
                                                     self.ignore.loc[self.ignore['Gen-Position'] == df['Gen-Position']]),
                                                     axis=1)
         print(f'Total time to {file_name[:-4]} process:  {time() - start} seconds')
+        msgbox(title='Liponium: An MTB-Heterorresistence app',
+               msg=f"""The reports were created successfully!\n\nTotal time for the {file_name[:-4]} process:  {time() - start} seconds'""",
+               ok_button='Done',
+               image=None)
         return df
 
 
@@ -76,7 +83,6 @@ class heteroresistence:
         Returns:
             (dataframe): Dataframe called file with the raw data of reads finding in the AWK process.
         """
-        start = time()
         file = pd.read_csv(file_name)
         file['Position'] = file['Position'].str.strip('[]')
         file = file.assign(pos=file['Position'].str.split('-')).explode('pos')
@@ -84,8 +90,13 @@ class heteroresistence:
         file.drop(columns='Position', inplace=True)
         file.rename(columns={'pos': 'Position'}, inplace=True)
         file.insert(2, 'Raw', None, allow_duplicates=False)
-        files = ' '.join(glob('./*.fastq'))
-        
+        path = diropenbox(title="Liponium",
+        		          msg="Select the fastq folder",
+                          default='./')
+
+        files = ' '.join(glob(f'{path}/*.fastq'))
+
+        start = time()
         nawk = f"""cut -d',' -f2 {file_name}|tail --lines=+2|parallel -j12 \
             nawk -v pattern={{}} \\''BEGIN {{
                 RS="@ER";
