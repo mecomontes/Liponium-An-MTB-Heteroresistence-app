@@ -60,7 +60,7 @@ class heteroresistence:
             (pd.DataFrame): Dataframe called file with full data for each finding probe in the fastq files.
         """
         start = time()
-        file: pd.DataFrame = self.nawkProcess(file_name)
+        file: pd.DataFrame = self.nawk_process(file_name)
         file['Raw'].replace('\n', float('NaN'), inplace=True)
         file.dropna(subset=['Raw'], inplace=True)
         df: pd.DataFrame = file.apply(lambda df: self.mapping_data(df['Gen-Position'],
@@ -77,7 +77,7 @@ class heteroresistence:
         return df
 
 
-    def nawkProcess(self, file_name: str) -> pd.DataFrame:
+    def nawk_process(self, file_name: str) -> pd.DataFrame:
         """Run a Blast searching on CLI injecting a AWK command to find lead considences in
         the fastq files.
 
