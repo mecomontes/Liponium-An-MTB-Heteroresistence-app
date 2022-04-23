@@ -1,5 +1,6 @@
 # **Liponium:** An MTB-Heteroresistence app
 
+A Bioinformatic tool to find mutations that cause Heteroresistance of MTB that is considered a preliminary stage to full resistance. Studies addressing the mechanisms underlying heteroresistance in TB are lacking so far. The aim of this tool is helping in studies of systematical causes of heteroresistance to Delamanid, Ethambutol, Etionamida, Streptomycin, Fluoroquinolones,  Isoniazide, Pyrazinamide, and other antibiotics.
 ---
 
 ## 1. Download the Liponium repository [here](https://github.com/mecomontes/MTB-Heteroresistence)
@@ -55,11 +56,13 @@ pip install -r requirements.txt
 <div align ="center "><img src='./images/reports.png' alt='Liponium' width="700"></div>
 ---
 
-Reference_Report.xlsx: An EXCEL file that contains the initial info inputed.
+You could find the generated reports at "Reports" folder inside the Liponium folder.
 
-Unmerged_Report.xlsx: An EXCEL file with the result after aplying the Liponium searching. 
+- Reference_Report.xlsx: An EXCEL file that contains the initial info inputed.
 
-Merged_Report.xlsx: Its a full report with that merged the initial info (Reference.xlsx) with the generated data (Unmerged.xlsx).
+- Unmerged_Report.xlsx: An EXCEL file with the result after aplying the Liponium searching. 
+
+- Merged_Report.xlsx: Its a full report with that merged the initial info (Reference.xlsx) with the generated data (Unmerged.xlsx).
 
 <div align ="center "><img src='./images/merged.png' alt='Liponium' width="700"></div>
 ---
