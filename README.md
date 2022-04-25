@@ -2,6 +2,31 @@
 
 A Bioinformatic tool to find mutations that cause Heteroresistance of MTB that is considered a preliminary stage to full resistance. Studies addressing the mechanisms underlying heteroresistance in TB are lacking so far. The aim of this tool is helping in studies of systematical causes of heteroresistance to Delamanid, Ethambutol, Etionamida, Streptomycin, Fluoroquinolones,  Isoniazide, Pyrazinamide, and other antibiotics.
 ---
+## 0. Basic Requirements
+You shold have installed make, pip for python 3, and conda before to install Liponium tool in you machine.
+
+### Install make
+The make utility will determine automatically which pieces of a large program need to be compiled, and issue the commands to recompile them. You may install make and build-essentail by typing:
+```
+sudo apt-get install make
+sudo apt-get install build-essential
+```
+
+### Install pip package installer for Python
+pip is the package installer for Python. You can use pip to install packages from the Python Package Index and other indexes. To install pip copy the below line and type enter:
+```
+sudo apt-get update
+sudo apt-get install -y python3-pip
+```
+### Install Conda package manager
+Conda is a cross-platform, language-agnostic binary package manager. It is the package manager used by Anaconda installations, but it may be used for other systems as well. Conda makes environments first-class citizens, making it easy to create independent environments even for C libraries. Conda is written entirely in Python, and is BSD licensed open source.
+To install conda copy the below line and type enter:
+```
+pip install -y conda
+```
+
+**IMPORTANT: You may need to close and restart your shell (Terminal) before to install Liponium tool**
+---
 
 ## 1. Download the Liponium repository [here](https://github.com/mecomontes/MTB-Heteroresistence)
 
@@ -34,7 +59,7 @@ conda activate liponium
 
 ## 6. Install modules, libraries, and all the necessary dependencies:
 ```
-pip install -r requirements.txt
+make
 ```
 <div align ="center "><img src='./images/requirements.png' alt='Liponium' width="700"></div>
 ---

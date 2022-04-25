@@ -60,7 +60,7 @@ class heteroresistence:
             (pd.DataFrame): Dataframe called file with full data for each finding probe in the fastq files.
         """
         start = time()
-        file: pd.DataFrame = self.nawk_process(file_name)
+        file: pd.DataFrame = self.gawk_process(file_name)
         file['Raw'].replace('\n', float('NaN'), inplace=True)
         file.dropna(subset=['Raw'], inplace=True)
         df: pd.DataFrame = file.apply(lambda df: self.mapping_data(df['Gen-Position'],
@@ -77,7 +77,7 @@ class heteroresistence:
         return df
 
 
-    def nawk_process(self, file_name: str) -> pd.DataFrame:
+    def gawk_process(self, file_name: str) -> pd.DataFrame:
         """Run a Blast searching on CLI injecting a AWK command to find lead considences in
         the fastq files.
 
@@ -101,8 +101,8 @@ class heteroresistence:
         files = self.compressed_files(path)
         
         start = time()
-        nawk: str = f"""cut -d',' -f2 {file_name}|tail --lines=+2|parallel -j12 \
-            nawk -v pattern={{}} \\''BEGIN {{
+        gawk: str = f"""cut -d',' -f2 {file_name}|tail --lines=+2|parallel -j12 \
+            gawk -v pattern={{}} \\''BEGIN {{
                 RS="@ER";
                 probe = "";
                 probe = pattern;
@@ -112,7 +112,7 @@ class heteroresistence:
                     print "~~~~"pattern"~~~~"
         }}
         $0 ~ probe'\\' {files}"""
-        reads: str = popen(nawk).read()
+        reads: str = popen(gawk).read()
         raw_data: List[str] = reads.split('~~~~')[1:]
         popen('rm -rf ./tmp').read()
         
