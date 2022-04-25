@@ -13,16 +13,14 @@ sudo apt-get install build-essential
 ```
 
 ### Install pip package installer for Python
-pip is the package installer for Python. You can use pip to install packages from the Python Package Index and other indexes. To install pip copy the below line and type enter:
-```
-sudo apt-get update
-sudo apt-get install -y python3-pip
-```
+pip is the package installer for Python. You can use pip to install packages from the Python Package Index and other indexes.
+
 ### Install Conda package manager
 Conda is a cross-platform, language-agnostic binary package manager. It is the package manager used by Anaconda installations, but it may be used for other systems as well. Conda makes environments first-class citizens, making it easy to create independent environments even for C libraries. Conda is written entirely in Python, and is BSD licensed open source.
-To install conda copy the below line and type enter:
+
+To install pip and conda copy the below line and type enter:
 ```
-pip install -y conda
+make basic_requirements
 ```
 
 **IMPORTANT: You may need to close and restart your shell (Terminal) before to install Liponium tool**
