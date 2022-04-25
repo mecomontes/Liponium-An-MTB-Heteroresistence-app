@@ -12,13 +12,13 @@ sudo apt-get install make
 sudo apt-get install build-essential
 ```
 
-### Install pip package installer for Python
+### PIP package installer for Python
 pip is the package installer for Python. You can use pip to install packages from the Python Package Index and other indexes.
 
-### Install Conda package manager
+### Conda package manager
 Conda is a cross-platform, language-agnostic binary package manager. It is the package manager used by Anaconda installations, but it may be used for other systems as well. Conda makes environments first-class citizens, making it easy to create independent environments even for C libraries. Conda is written entirely in Python, and is BSD licensed open source.
 
-To install pip and conda copy the below line and type enter:
+To install pip and conda, copy the below line and type enter:
 ```
 make basic_requirements
 ```
