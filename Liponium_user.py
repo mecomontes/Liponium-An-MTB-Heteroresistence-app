@@ -14,8 +14,8 @@ import numpy as np
 import pandas as pd
 from fuzzysearch import find_near_matches
 from Bio.Seq import Seq
+from easygui import diropenbox, msgbox
 from datetime import datetime
-import sys
 
 
 class heteroresistence:
@@ -43,9 +43,10 @@ class heteroresistence:
                     'Notes', 'forward_SONDA', 'Gen.1', 'nucleotido', 'nucleotid', 'en']]
         
         date: str = datetime.today().strftime('%Y-%m-%d-%H-%M')
-        final = final[final['Gen'] != 'pykA']
         
         popen('mkdir -p Reports').read()
+        final = final[final['Gen'] != 'pykA']
+
         final.to_excel(f'./Reports/Merged_Report_{date}.xlsx', index=False)
         df_final.to_excel(f'./Reports/Unmerged_Report_{date}.xlsx', index=False)
         reference.to_excel(f'./Reports/Reference_Report_{date}.xlsx', index=False)
@@ -73,6 +74,10 @@ class heteroresistence:
                                                     self.ignore.loc[self.ignore['Gen-Position'] == line['Gen-Position']]),
                                                     axis=1)
         print(f'Total time to {file_name[:-4]} process:  {time() - start} seconds')
+        msgbox(title='Liponium: An MTB-Heterorresistence app',
+               msg=f"""The reports were created successfully!\n\nTotal time for the {file_name[:-4]} process:  {time() - start} seconds'""",
+               ok_button='Done',
+               image=None)
         return df
 
 
@@ -93,7 +98,9 @@ class heteroresistence:
         file.drop(columns='Position', inplace=True)
         file.rename(columns={'pos': 'Position'}, inplace=True)
         file.insert(2, 'Raw', None, allow_duplicates=False)
-        path: str = sys.argv[1]
+        path: str = diropenbox(title="Liponium",
+        		          msg="Select the fastq folder",
+                          default='./Fastq_Examples')
         print(path)
 
         files = self.compressed_files(path)
@@ -275,7 +282,4 @@ class heteroresistence:
 
 
 if __name__ == '__main__':
-    try:
-        heteroresistence('Probes_MTB.csv')
-    except:
-        pass
+    heteroresistence('Probes_MTB.csv')
