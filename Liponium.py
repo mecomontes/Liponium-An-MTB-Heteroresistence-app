@@ -28,13 +28,15 @@ class heteroresistence:
             reference_file (str): Input file that contains genes, probes, positions, and reference codons.
         """
         reference: pd.DataFrame = pd.read_csv('Probes_MTB.csv')
-        reference.dropna(subset=['Probe'], inplace=True)
+        reference.dropna(subset=['Probe', 'Reference Aminoacid'], inplace=True)
         reference.to_csv('forward5.csv', columns=['Gen-Position', 'Probe', 'Position'], index=False)
         self.ignore: pd.DataFrame  = reference[['Gen-Position', 'Reference Codon']]
         reference.drop(columns=['Position', 'Mutated Codon', 'Reference Aminoacid', 'Mutated Aminoacid'], inplace=True)
 
         self.forward = self.running('forward.csv')
         df_final: pd.DataFrame  = self.aminoacids_frequencies()
+        df_final['Reference Codon'].replace('', np.nan, inplace=True)
+        df_final.dropna(inplace=True)
         df_final.reset_index(inplace=True)
         final: pd.DataFrame = reference.merge(df_final, on='Reference Codon', how='right')
         final.fillna('', inplace=True)
@@ -43,6 +45,7 @@ class heteroresistence:
                     'Notes', 'forward_SONDA', 'Gen.1', 'nucleotido', 'nucleotid', 'en']]
         
         date: str = datetime.today().strftime('%Y-%m-%d-%H-%M')
+
         final = final[final['Gen'] != 'pykA']
         
         popen('mkdir -p Reports').read()
@@ -70,7 +73,7 @@ class heteroresistence:
                                                     line['Raw'],
                                                     line['Probe'],
                                                     line['Position'],
-                                                    self.ignore.loc[self.ignore['Gen-Position'] == line['Gen-Position']]),
+                                                    self.ignore[self.ignore['Gen-Position'] == line['Gen-Position']]),
                                                     axis=1)
         print(f'Total time to {file_name[:-4]} process:  {time() - start} seconds')
         return df
@@ -175,7 +178,7 @@ class heteroresistence:
             df.dropna(inplace=True)
        
         if not df.empty:
-            df['Codons'] = df.apply(lambda row: self.codons(row, self.ignore), axis=1)
+            df['Codons'] = df.apply(lambda row: self.codons(row, ignore), axis=1)
         
         if not df.empty:
             df['Phreds'] = df.apply(lambda row: self.phreds(row), axis=1)
@@ -231,11 +234,8 @@ class heteroresistence:
             return None
         elif len(codon) != 3:
             return None
-        elif not self.ignore['Reference Codon'].empty and len(self.ignore['Reference Codon'].values[0]) != 0\
-            and codon in self.ignore['Reference Codon'].values[0]:
-            return None
-        elif not self.ignore['Reference Codon'].empty and len(self.ignore['Reference Codon'].values[0]) != 0:
-            return f'{codon}/{self.ignore["Reference Codon"].values[0]}'
+        elif not ignore['Reference Codon'].empty and ignore['Reference Codon'].values[0]:
+            return f'{codon}/{ignore["Reference Codon"].values[0]}'
         return f'{codon}/'
 
 
